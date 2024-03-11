@@ -3,6 +3,7 @@
  * @param {String} password 
  */
 export function validatePassword(password) {
+  if (password == null) return false;
   const isLongEnough = password.length >= 8;
   const hasUpperCase = /[A-Z]/.test(password);
   const hasLowerCase = /[a-z]/.test(password);
@@ -27,12 +28,14 @@ export function validateInt(integer) {
 
 export function validateInputFileName(name) {
   const txtExtensionPattern = /\.txt$/i;
-  return txtExtensionPattern.test(name);
+  const isValidLength = name.length <= 34;
+  return txtExtensionPattern.test(name) && isValidLength;
 }
 
 export function validateOutputFileName(name) {
   const jsonExtensionPattern = /\.json$/i;
-  return jsonExtensionPattern.test(name);
+  const isValidLength = name.length <= 35;
+  return jsonExtensionPattern.test(name) && isValidLength;
 }
 
 /**
