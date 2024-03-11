@@ -1,5 +1,6 @@
-//Global Variables and References
-let storedInputFileName = '';
+import { validateName, validateInt, isValidPassword, checkOverflow } from './modules/validation.js';
+import { hashInput, generateSalt } from './modules/utils.js';
+import { updateInputValue } from './modules/ui.js';
 
 //tracks which buttons have been clicked
 let clicks = {
@@ -8,6 +9,15 @@ let clicks = {
   promptForFiles: false,
   promptForPassword: false
 };
+
+
+document.addEventListener('DOMContentLoaded', (event) => {
+  document.getElementById('nameButton').addEventListener('click', promptForName);
+  document.getElementById('numbersButton').addEventListener('click', promptForNumbers);
+  document.getElementById('fileNamesButton').addEventListener('click', promptForFiles);
+  document.getElementById('passwordButton').addEventListener('click', promptForPassword);
+  document.getElementById('importExportButton').addEventListener('click', initiateFileSelection);
+});
 
 function promptForName() {
   const instructions = "Please enter a name using only letters (A-Z, a-z). Maximum 50 characters.";
@@ -107,10 +117,6 @@ async function promptForPassword() {
 }
 
 
-document.getElementById('readAndWrite').addEventListener('click', function () {
-  initiateFileSelection();
-});
-
 function initiateFileSelection() {
   const fileInput = document.getElementById('fileInput');
   fileInput.click(); // Programmatically open the file dialog
@@ -146,112 +152,11 @@ function readSelectedFile(file) {
   reader.readAsText(file);
 }
 
-function generateSalt() {
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  let salt = '';
-  const length = 8;
-  for (let i = 0; i < length; i++) {
-    salt += characters.charAt(Math.floor(Math.random() * characters.length));
-  }
-  return salt;
-}
-
-/**
- * Hashes the input text using SHA-256
- * @param {string} text 
- * @returns Hashed value of the input text
- */
-async function hashInput(text) {
-  const encoder = new TextEncoder();
-  const data = encoder.encode(text);
-  const hash = await crypto.subtle.digest('SHA-256', data);
-  return Array.from(new Uint8Array(hash))
-    .map(b => b.toString(16).padStart(2, '0'))
-    .join('');
-}
-/**
- * 
- * @param {String} password 
- */
-function isValidPassword(password) {
-  const isLongEnough = password.length >= 8;
-  const hasUpperCase = /[A-Z]/.test(password);
-  const hasLowerCase = /[a-z]/.test(password);
-  const hasNumber = /\d/.test(password);
-  const hasSymbol = /[!@#$%^&*(),.?":{}|<>]/.test(password);
-  return isLongEnough && hasUpperCase && hasLowerCase && hasNumber && hasSymbol;
-}
-/**
- * 
- * @param {String} name 
- */
-function validateName(name) {
-  const nameRegex = /^[a-zA-Z]{1,50}$/;
-  return nameRegex.test(name);
-}
-
-function validateInt(integer) {
-  const intValue = Number(integer);
-  return Number.isInteger(intValue) && intValue >= -2147483648 && intValue <= 2147483647;
-}
-
-/**
- * 
- * @param {Number} firstInt 
- * @param {Number} secondInt 
- * @returns True if overflow will occur based on addition or multiplication of parameter integers
- */
-function checkOverflow(firstInt, secondInt) {
-  const num1 = Number(firstInt);
-  const num2 = Number(secondInt);
-  // Check for overflow in case of addition or multiplication for 4-byte signed int range
-  const addition = num1 + num2;
-  const multiplication = num1 * num2;
-  return addition < -2147483648 || multiplication < -2147483648 || addition > 2147483647 || multiplication > 2147483647;
-}
-
 /**
  * Used for enabling the file writing button after all other buttons have been clicked
  */
 function checkAllClicked() {
   if (Object.values(clicks).every(value => value)) {
-    document.getElementById('readAndWrite').disabled = false;
+    document.getElementById('importExportButton').disabled = false;
   }
-}
-
-/**
- * Updates the table to display the inputted data
- * @param {string} inputType 
- * @param {string} value 
- */
-function updateInputValue(inputType, value) {
-  let enteredId = "";
-  let valueId = "";
-
-  switch (inputType) {
-    case 'Name':
-      enteredId = "nameEntered";
-      valueId = "nameValue";
-      break;
-    case 'Numbers':
-      enteredId = "numbersEntered"; // Fixed typo in your original HTML ID
-      valueId = "numbersValue";
-      break;
-    case 'I/O Files':
-      enteredId = "filesEntered";
-      valueId = "filesValue";
-      break;
-    case 'Password':
-      enteredId = "passwordEntered";
-      valueId = "passwordValue";
-      break;
-    default:
-      console.error("Invalid input type");
-      return;
-  }
-  const enteredCell = document.getElementById(enteredId);
-  enteredCell.textContent = '✅';
-  enteredCell.style.color = 'green';
-  const valueCell = document.getElementById(valueId);
-  valueCell.textContent = value;
 }

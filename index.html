@@ -12,11 +12,11 @@
 
   <p> Click each button and follow the prompts to enter in your information</p>
   <p>Once all the data has been entered, download the output file!</p>
-  <button onclick="promptForName()">Enter Name</button>
-  <button onclick="promptForNumbers()">Enter Numbers</button>
-  <button onclick="promptForFiles()">Enter File Names</button>
-  <button onclick="promptForPassword()">Enter Password</button>
-  <button id="readAndWrite" disabled>Read and Write File</button>
+  <button id="nameButton">Enter Name</button>
+  <button id="numbersButton">Enter Numbers</button>
+  <button id="fileNamesButton">Enter File Names</button>
+  <button id="passwordButton">Enter Password</button>
+  <button id="importExportButton" disabled>Read and Write File</button>
   <input type="file" id="fileInput" style="display: none;" />
 
   <hr>
@@ -57,7 +57,7 @@
   </div>
 
 
-  <script src="script.js"></script>
+  <script src="./js/script.js" type="module"></script>
 </body>
 
 </html>
