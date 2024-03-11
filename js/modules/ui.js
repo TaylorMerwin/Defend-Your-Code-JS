@@ -13,7 +13,6 @@ export function updateInputValue(inputType, value) {
       valueId = "nameValue";
       break;
     case 'Numbers':
-      enteredId = "numbersEntered"; // Fixed typo in your original HTML ID
       valueId = "numbersValue";
       break;
     case 'I/O Files':
