@@ -1,4 +1,12 @@
 /**
+ * SECURE YOUR CODE JS
+ * TCSS 483
+ * Taylor Merwin
+ * Winter 24 
+ */
+
+
+/**
  * Hashes the input text using SHA-256
  * @param {string} text 
  * @returns Hashed value of the input text
@@ -12,6 +20,9 @@ export async function hashInput(text) {
     .join('');
 }
 
+/**
+ * Generates a salt to be used for password hashing
+ */
 export function generateSalt() {
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   let salt = '';

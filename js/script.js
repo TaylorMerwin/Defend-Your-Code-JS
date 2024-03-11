@@ -1,3 +1,10 @@
+/**
+ * SECURE YOUR CODE JS
+ * TCSS 483
+ * Taylor Merwin
+ * Winter 24 
+ */
+
 import { validateName, validateInt, validatePassword, checkOverflow, validateInputFileName, validateOutputFileName } from './modules/validation.js';
 import { hashInput, generateSalt } from './modules/utils.js';
 import { updateInputValue } from './modules/ui.js';
@@ -24,7 +31,7 @@ let userInfo = {
   outputFileName: ''
 };
 
-
+//Event listeners for the buttons on the page
 document.addEventListener('DOMContentLoaded', (event) => {
   document.getElementById('nameButton').addEventListener('click', promptForName);
   document.getElementById('numbersButton').addEventListener('click', promptForNumbers);
@@ -34,6 +41,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
   document.getElementById('exportButton').addEventListener('click', createOutputFile);
 });
 
+/**
+ * Prompts the user for their name.
+ * Then adds their name to the userInfo file and updates the clicked variable
+ */
 function promptForName() {
   const instructions = "Please enter a name using only letters (A-Z, a-z). Maximum 50 characters.";
   let recieved = false;
@@ -61,7 +72,10 @@ function promptForName() {
   console.log(userInfo.firstName);
 }
 
-
+/**
+ * Prompts the user for numbers
+ * Then adds the numbers to the userInfo file and updates the clicked variable
+ */
 function promptForNumbers() {
   const instructions = "Integers must be between -2,147,483,648 and 2,147,483,647."
   let firstInt = prompt("Enter the first integer:\n" + instructions);
@@ -81,6 +95,10 @@ function promptForNumbers() {
   updateInputValue('Numbers', `${firstInt} and ${secondInt}`);
 }
 
+/**
+ * Prompts the user for the file names.
+ * Then adds the chosen file names to the userInfo file and updates the clicked variable
+ */
 function promptForFiles() {
 
   let inputFileName = prompt("Enter name of the input .txt file");
@@ -139,7 +157,7 @@ async function promptForPassword() {
 }
 
 /**
- * Initiates the I/O process upon clicking the Read and Write button
+ * Prompts the user for an input file
  */
 function promptForImport() {
   const fileInput = document.getElementById('fileInput');
@@ -168,7 +186,8 @@ function promptForImport() {
 }
 
 /**
- * TODO: Implement file processing
+ * Reads in the user selected file
+ * Updates the userInfo with the text inside the selected file
  */
 function readSelectedFile(file) {
   const reader = new FileReader();
@@ -180,6 +199,10 @@ function readSelectedFile(file) {
   reader.readAsText(file);
 }
 
+/**
+ * Opens a dialog to save the user info to a JSON file
+ * The output file contains the userInfo and has the name specified before
+ */
 function createOutputFile() {
   const outputData = JSON.stringify(userInfo, null, 2);
   const blob = new Blob([outputData], { type: 'application/json' });
@@ -201,7 +224,7 @@ function createOutputFile() {
 }
 
 /**
- * Used for enabling the export button after all other buttons have been clicked
+ * Checks to see if all necessary buttons have been clicked before enabling the export button
  */
 function checkAllClicked() {
   if (Object.values(clicks).every(value => value)) {

@@ -1,4 +1,11 @@
 /**
+ * SECURE YOUR CODE JS
+ * TCSS 483
+ * Taylor Merwin
+ * Winter 24 
+ */
+
+/**
  * 
  * @param {String} password 
  */
@@ -13,7 +20,7 @@ export function validatePassword(password) {
 }
 
 /**
- * 
+ * Validates Name
  * @param {String} name 
  */
 export function validateName(name) {
@@ -21,17 +28,26 @@ export function validateName(name) {
   return nameRegex.test(name);
 }
 
-export function validateInt(integer) {
-  const intValue = Number(integer);
+/**
+ * Validates "Integer"
+ */
+export function validateInt(number) {
+  const intValue = Number(number);
   return Number.isInteger(intValue) && intValue >= -2147483648 && intValue <= 2147483647;
 }
 
+/**
+ * Validates Input File Name
+ */
 export function validateInputFileName(name) {
   const txtExtensionPattern = /\.txt$/i;
   const isValidLength = name.length <= 34;
   return txtExtensionPattern.test(name) && isValidLength;
 }
 
+/**
+ * Validates Output File Name
+ */
 export function validateOutputFileName(name) {
   const jsonExtensionPattern = /\.json$/i;
   const isValidLength = name.length <= 35;
@@ -39,7 +55,7 @@ export function validateOutputFileName(name) {
 }
 
 /**
- * 
+ * Checks numbers for "overflow"
  * @param {Number} firstInt 
  * @param {Number} secondInt 
  * @returns True if overflow will occur based on addition or multiplication of parameter integers

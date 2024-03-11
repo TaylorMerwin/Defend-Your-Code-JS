@@ -1,3 +1,9 @@
+/**
+ * SECURE YOUR CODE JS
+ * TCSS 483
+ * Taylor Merwin
+ * Winter 24 
+*/
 import { validateName, validateInt, validateInputFileName, validateOutputFileName, validatePassword } from '../js/modules/validation.js';
 
 
