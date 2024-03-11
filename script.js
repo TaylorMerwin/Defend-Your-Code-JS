@@ -1,5 +1,5 @@
 //Global Variables and References
-let storedInputFileName = 'fjsdfjsadf';
+let storedInputFileName = '';
 
 //tracks which buttons have been clicked
 let clicks = {
@@ -26,6 +26,7 @@ function promptForName() {
   alert("Hello, " + firstName + " " + lastName);
   clicks.promptForName = true;
   checkAllClicked();
+  updateInputValue('Name', `${firstName} ${lastName}`);
 }
 
 function promptForNumbers() {
@@ -38,9 +39,9 @@ function promptForNumbers() {
     alert("Invalid Input or overflow will occur! Try again");
     promptForNumbers();
   }
-  alert("You entered the integers: " + firstInt + " and " + secondInt);
   clicks.promptForNumbers = true;
   checkAllClicked();
+  updateInputValue('Numbers', `${firstInt} and ${secondInt}`);
 }
 
 function promptForFiles() {
@@ -68,6 +69,7 @@ function promptForFiles() {
 
   clicks.promptForFiles = true;
   checkAllClicked();
+  updateInputValue('I/O Files', `${inputFileName} and ${outputFileName}`);
 }
 
 /**
@@ -75,7 +77,7 @@ function promptForFiles() {
  * Write Hashed password to file
  */
 async function promptForPassword() {
-  const salt = "salt"; //change to a unique salt
+  const salt = generateSalt();
   let match = false;
 
   alert("Passwords must be at least 8 characters long and inlude 1 uppercase, 1 lowercase, 1 digit, and 1 symbol.");
@@ -101,6 +103,7 @@ async function promptForPassword() {
   }
   clicks.promptForPassword = true;
   checkAllClicked();
+  updateInputValue('Password', '********');
 }
 
 
@@ -143,8 +146,21 @@ function readSelectedFile(file) {
   reader.readAsText(file);
 }
 
+function generateSalt() {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let salt = '';
+  const length = 8;
+  for (let i = 0; i < length; i++) {
+    salt += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+  return salt;
+}
 
-
+/**
+ * Hashes the input text using SHA-256
+ * @param {string} text 
+ * @returns Hashed value of the input text
+ */
 async function hashInput(text) {
   const encoder = new TextEncoder();
   const data = encoder.encode(text);
@@ -201,4 +217,41 @@ function checkAllClicked() {
   if (Object.values(clicks).every(value => value)) {
     document.getElementById('readAndWrite').disabled = false;
   }
+}
+
+/**
+ * Updates the table to display the inputted data
+ * @param {string} inputType 
+ * @param {string} value 
+ */
+function updateInputValue(inputType, value) {
+  let enteredId = "";
+  let valueId = "";
+
+  switch (inputType) {
+    case 'Name':
+      enteredId = "nameEntered";
+      valueId = "nameValue";
+      break;
+    case 'Numbers':
+      enteredId = "numbersEntered"; // Fixed typo in your original HTML ID
+      valueId = "numbersValue";
+      break;
+    case 'I/O Files':
+      enteredId = "filesEntered";
+      valueId = "filesValue";
+      break;
+    case 'Password':
+      enteredId = "passwordEntered";
+      valueId = "passwordValue";
+      break;
+    default:
+      console.error("Invalid input type");
+      return;
+  }
+  const enteredCell = document.getElementById(enteredId);
+  enteredCell.textContent = '✅';
+  enteredCell.style.color = 'green';
+  const valueCell = document.getElementById(valueId);
+  valueCell.textContent = value;
 }

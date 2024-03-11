@@ -4,19 +4,58 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Secure Your Code</title>
+  <title>Defend Your Code</title>
 </head>
 
 <body>
   <h1>Defend Your Code!</h1>
 
   <p> Click each button and follow the prompts to enter in your information</p>
+  <p>Once all the data has been entered, download the output file!</p>
   <button onclick="promptForName()">Enter Name</button>
   <button onclick="promptForNumbers()">Enter Numbers</button>
   <button onclick="promptForFiles()">Enter File Names</button>
   <button onclick="promptForPassword()">Enter Password</button>
   <button id="readAndWrite" disabled>Read and Write File</button>
   <input type="file" id="fileInput" style="display: none;" />
+
+  <hr>
+
+  <div id="userInputSummary">
+    <h2>Input Summary</h2>
+    <table id="summaryTable">
+      <thead>
+        <tr>
+          <th>Entered</th>
+          <th>Type</th>
+          <th>Value(s)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr id="nameRow">
+          <td id="nameEntered">❌</td>
+          <td>Name</td>
+          <td id="nameValue"></td>
+        </tr>
+        <tr id="numbersRow">
+          <td id="numbersEntered">❌</td>
+          <td>Numbers</td>
+          <td id="numbersValue"></td>
+        </tr>
+        <tr id="filesRow">
+          <td id="filesEntered">❌</td>
+          <td>I/O Files</td>
+          <td id="filesValue"></td>
+        </tr>
+        <tr id="passwordRow">
+          <td id="passwordEntered">❌</td>
+          <td>Password</td>
+          <td id="passwordValue"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
 
   <script src="script.js"></script>
 </body>
