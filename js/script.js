@@ -94,8 +94,6 @@ function promptForFiles() {
   }
 
   alert(`Input File: ${inputFileName}\nOutput File: ${outputFileName}`);
-  storedInputFileName = inputFileName;
-
   clicks.promptForFiles = true;
   userInfo.inputFileName = inputFileName;
   userInfo.outputFileName = outputFileName;
@@ -104,8 +102,7 @@ function promptForFiles() {
 }
 
 /**
- * TODO: 
- * Write Hashed password to file
+ * Prompts the user to enter a password and then re-enter the password to confirm
  */
 async function promptForPassword() {
   const salt = generateSalt();
@@ -125,8 +122,7 @@ async function promptForPassword() {
     const secondHashed = await hashInput(password2 + salt);
 
     if (firstHashed === secondHashed) {
-      match = true; // The hashes match, set the flag to true to exit the loop
-      alert("The passwords match. First = " + firstHashed + "\nSecond Hash = " + secondHashed);
+      match = true;
     }
     else {
       alert("The passwords do not match. Please try again.");
@@ -137,13 +133,15 @@ async function promptForPassword() {
   updateInputValue('Password', '********');
 }
 
+/**
+ * Initiates the I/O process upon clicking the Read and Write button
+ */
 function importExport() {
-  initiateFileSelection();
+  fileSelection();
 
 }
 
-
-function initiateFileSelection() {
+function fileSelection() {
   const fileInput = document.getElementById('fileInput');
   fileInput.click(); // Programmatically open the file dialog
 
@@ -154,10 +152,10 @@ function initiateFileSelection() {
       return;
     }
 
-    if (file.name !== storedInputFileName) {
+    if (file.name !== userInfo.inputFileName) {
       alert("The selected file does not match the input file name. Please select the correct file.");
       fileInput.value = ''; // Reset the file input
-      initiateFileSelection(); // Attempt to re-initiate file selection - This approach won't work due to security restrictions
+      fileSelection();
       return;
     }
 
