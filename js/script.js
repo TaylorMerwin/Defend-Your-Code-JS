@@ -36,25 +36,30 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 function promptForName() {
   const instructions = "Please enter a name using only letters (A-Z, a-z). Maximum 50 characters.";
+  const recieved = false;
 
-  let firstName = prompt("Enter your first name:\n" + instructions);
-  while (!validateName(firstName)) {
-    alert("Invalid first name. \n");
-    firstName = prompt("Enter first name again:\n" + instructions);
-  }
+  while (!recieved) {
+    let firstName = prompt("Enter your first name:\n" + instructions);
+    let lastName = prompt("Enter your last name: \n" + instructions);
 
-  let lastName = prompt("Enter your last name: \n" + instructions);
-  while (!validateName(lastName)) {
-    alert("Invalid last name. \n");
-    lastName = prompt("Enter last name again:\n" + instructions);
+    if (!validateName(firstName) || !validateName(lastName)) {
+      alert('One more names was entered incorrectly')
+      continue;
+    }
+    if (firstName != null && lastName != null) {
+      recieved = true;
+    }
+    else {
+      alert("Must enter a name!");
+    }
   }
-  alert("Hello, " + firstName + " " + lastName);
   clicks.promptForName = true;
   userInfo.firstName = firstName;
   userInfo.lastName = lastName;
   checkAllClicked();
   updateInputValue('Name', `${firstName} ${lastName}`);
 }
+
 
 function promptForNumbers() {
   const instructions = "Integers must be between -2,147,483,648 and 2,147,483,647."
@@ -87,7 +92,7 @@ function promptForFiles() {
   }
 
   // Validate the output file name
-  if (!validateInputFileName(outputFileName)) {
+  if (!validateOutputFileName(outputFileName)) {
     alert("Invalid output file name. The file must be a .json file.");
     return promptForFiles(); // Retry
   }
