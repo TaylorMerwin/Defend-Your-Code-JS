@@ -38,6 +38,7 @@ QUnit.module('validateInt tests', function () {
     assert.notOk(validateInt("-2, 147, 483, 648"));
     assert.notOk(validateInt("-2,147,483,648"));
     assert.notOk(validateInt(1.1));
+    assert.notOk(validateInt("Not a number"), 'Not a number');
   })
 });
 

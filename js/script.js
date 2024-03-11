@@ -36,11 +36,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 function promptForName() {
   const instructions = "Please enter a name using only letters (A-Z, a-z). Maximum 50 characters.";
-  const recieved = false;
-
+  let recieved = false;
+  let firstName, lastName;
   while (!recieved) {
-    let firstName = prompt("Enter your first name:\n" + instructions);
-    let lastName = prompt("Enter your last name: \n" + instructions);
+    firstName = prompt("Enter your first name:\n" + instructions);
+    lastName = prompt("Enter your last name: \n" + instructions);
 
     if (!validateName(firstName) || !validateName(lastName)) {
       alert('One more names was entered incorrectly')
@@ -58,6 +58,7 @@ function promptForName() {
   userInfo.lastName = lastName;
   checkAllClicked();
   updateInputValue('Name', `${firstName} ${lastName}`);
+  console.log(userInfo.firstName);
 }
 
 
