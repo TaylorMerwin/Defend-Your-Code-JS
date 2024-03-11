@@ -10,13 +10,26 @@ let clicks = {
   promptForPassword: false
 };
 
+// User input that will be exported to a file
+let userInfo = {
+  firstName: '',
+  lastName: '',
+  firstInt: 0,
+  secondInt: 0,
+  sum: 0,
+  product: 0,
+  inputFileName: '',
+  inputFileContents: '',
+  outputFileName: ''
+};
+
 
 document.addEventListener('DOMContentLoaded', (event) => {
   document.getElementById('nameButton').addEventListener('click', promptForName);
   document.getElementById('numbersButton').addEventListener('click', promptForNumbers);
   document.getElementById('fileNamesButton').addEventListener('click', promptForFiles);
   document.getElementById('passwordButton').addEventListener('click', promptForPassword);
-  document.getElementById('importExportButton').addEventListener('click', initiateFileSelection);
+  document.getElementById('importExportButton').addEventListener('click', importExport);
 });
 
 function promptForName() {
@@ -35,6 +48,8 @@ function promptForName() {
   }
   alert("Hello, " + firstName + " " + lastName);
   clicks.promptForName = true;
+  userInfo.firstName = firstName;
+  userInfo.lastName = lastName;
   checkAllClicked();
   updateInputValue('Name', `${firstName} ${lastName}`);
 }
@@ -50,6 +65,10 @@ function promptForNumbers() {
     promptForNumbers();
   }
   clicks.promptForNumbers = true;
+  userInfo.firstInt = Number(firstInt);
+  userInfo.secondInt = Number(secondInt);
+  userInfo.sum = Number(firstInt) + Number(secondInt);
+  userInfo.product = Number(firstInt) * Number(secondInt);
   checkAllClicked();
   updateInputValue('Numbers', `${firstInt} and ${secondInt}`);
 }
@@ -78,6 +97,8 @@ function promptForFiles() {
   storedInputFileName = inputFileName;
 
   clicks.promptForFiles = true;
+  userInfo.inputFileName = inputFileName;
+  userInfo.outputFileName = outputFileName;
   checkAllClicked();
   updateInputValue('I/O Files', `${inputFileName} and ${outputFileName}`);
 }
@@ -116,6 +137,11 @@ async function promptForPassword() {
   updateInputValue('Password', '********');
 }
 
+function importExport() {
+  initiateFileSelection();
+
+}
+
 
 function initiateFileSelection() {
   const fileInput = document.getElementById('fileInput');
@@ -148,6 +174,7 @@ function readSelectedFile(file) {
   reader.onload = function (event) {
     const contents = event.target.result;
     console.log(contents);
+    userInfo.inputFileContents = contents;
   };
   reader.readAsText(file);
 }
