@@ -1,4 +1,4 @@
-import { validateName, validateInt, isValidPassword, checkOverflow } from './modules/validation.js';
+import { validateName, validateInt, validatePassword, checkOverflow, validateInputFileName, validateOutputFileName } from './modules/validation.js';
 import { hashInput, generateSalt } from './modules/utils.js';
 import { updateInputValue } from './modules/ui.js';
 
@@ -77,25 +77,21 @@ function promptForNumbers() {
 
 function promptForFiles() {
 
-  const txtExtensionPattern = /\.txt$/i;
-  const jsonExtensionPattern = /\.json$/i;
-
   let inputFileName = prompt("Enter name of the input .txt file");
   let outputFileName = prompt("Enter name of the output .json file");
 
   //validate the input file name
-  if (!txtExtensionPattern.test(inputFileName)) {
+  if (!validateInputFileName(inputFileName)) {
     alert("Invalid input file name. The file must be a .txt file.");
     return promptForFiles(); // Retry
   }
 
   // Validate the output file name
-  if (!jsonExtensionPattern.test(outputFileName)) {
+  if (!validateInputFileName(outputFileName)) {
     alert("Invalid output file name. The file must be a .json file.");
     return promptForFiles(); // Retry
   }
 
-  alert(`Input File: ${inputFileName}\nOutput File: ${outputFileName}`);
   clicks.promptForFiles = true;
   userInfo.inputFileName = inputFileName;
   userInfo.outputFileName = outputFileName;
@@ -116,7 +112,7 @@ async function promptForPassword() {
   while (!match) {
     let password = prompt("Enter your password:");
     //before going further ensure that password is secure
-    if (!isValidPassword(password)) {
+    if (!validatePassword(password)) {
       alert("Password must be at least 8 characters long and inlude 1 uppercase, 1 lowercase, 1 digit, and 1 symbol.\n Try Again!");
       continue;
     }

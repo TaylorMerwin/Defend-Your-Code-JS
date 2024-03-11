@@ -2,7 +2,7 @@
  * 
  * @param {String} password 
  */
-export function isValidPassword(password) {
+export function validatePassword(password) {
   const isLongEnough = password.length >= 8;
   const hasUpperCase = /[A-Z]/.test(password);
   const hasLowerCase = /[a-z]/.test(password);
@@ -23,6 +23,16 @@ export function validateName(name) {
 export function validateInt(integer) {
   const intValue = Number(integer);
   return Number.isInteger(intValue) && intValue >= -2147483648 && intValue <= 2147483647;
+}
+
+export function validateInputFileName(name) {
+  const txtExtensionPattern = /\.txt$/i;
+  return txtExtensionPattern.test(name);
+}
+
+export function validateOutputFileName(name) {
+  const jsonExtensionPattern = /\.json$/i;
+  return jsonExtensionPattern.test(name);
 }
 
 /**
