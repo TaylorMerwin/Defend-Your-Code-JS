@@ -24,6 +24,10 @@ export function updateInputValue(inputType, value) {
       enteredId = "passwordEntered";
       valueId = "passwordValue";
       break;
+    case 'Import':
+      enteredId = "importEntered";
+      valueId = "importValue";
+      break;
     default:
       console.error("Invalid input type");
       return;

@@ -7,7 +7,8 @@ let clicks = {
   promptForName: false,
   promptForNumbers: false,
   promptForFiles: false,
-  promptForPassword: false
+  promptForPassword: false,
+  promptForImport: false
 };
 
 // User input that will be exported to a file
@@ -29,7 +30,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
   document.getElementById('numbersButton').addEventListener('click', promptForNumbers);
   document.getElementById('fileNamesButton').addEventListener('click', promptForFiles);
   document.getElementById('passwordButton').addEventListener('click', promptForPassword);
-  document.getElementById('importExportButton').addEventListener('click', importExport);
+  document.getElementById('importButton').addEventListener('click', promptForImport);
+  document.getElementById('exportButton').addEventListener('click', createOutputFile);
 });
 
 function promptForName() {
@@ -98,6 +100,7 @@ function promptForFiles() {
   userInfo.inputFileName = inputFileName;
   userInfo.outputFileName = outputFileName;
   checkAllClicked();
+  document.getElementById('importButton').disabled = false;
   updateInputValue('I/O Files', `${inputFileName} and ${outputFileName}`);
 }
 
@@ -136,14 +139,9 @@ async function promptForPassword() {
 /**
  * Initiates the I/O process upon clicking the Read and Write button
  */
-function importExport() {
-  fileSelection();
-
-}
-
-function fileSelection() {
+function promptForImport() {
   const fileInput = document.getElementById('fileInput');
-  fileInput.click(); // Programmatically open the file dialog
+  fileInput.click(); // open the file dialog
 
   fileInput.onchange = async function (event) {
     const file = event.target.files[0];
@@ -162,6 +160,9 @@ function fileSelection() {
     // If the file name matches, proceed to read the selected file
     readSelectedFile(file);
   };
+  clicks.promptForImport = true;
+  checkAllClicked();
+  updateInputValue('Import', `User input recieved`);
 }
 
 /**
@@ -171,17 +172,37 @@ function readSelectedFile(file) {
   const reader = new FileReader();
   reader.onload = function (event) {
     const contents = event.target.result;
-    console.log(contents);
-    userInfo.inputFileContents = contents;
+    console.log(contents); //printed to console for testing purposes
+    userInfo.inputFileContents = contents; //write the file contents to userInfo
   };
   reader.readAsText(file);
 }
 
+function createOutputFile() {
+  const outputData = JSON.stringify(userInfo, null, 2);
+  const blob = new Blob([outputData], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+
+  //print out the contents of the output file to the console for testing purposes
+  console.log(outputData);
+
+  // Create a link and trigger the download
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = userInfo.outputFileName;
+  document.body.appendChild(a);
+  a.click();
+
+  // Cleanup
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
 /**
- * Used for enabling the file writing button after all other buttons have been clicked
+ * Used for enabling the export button after all other buttons have been clicked
  */
 function checkAllClicked() {
   if (Object.values(clicks).every(value => value)) {
-    document.getElementById('importExportButton').disabled = false;
+    document.getElementById('exportButton').disabled = false;
   }
 }

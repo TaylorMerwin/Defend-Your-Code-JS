@@ -16,7 +16,8 @@
   <button id="numbersButton">Enter Numbers</button>
   <button id="fileNamesButton">Enter File Names</button>
   <button id="passwordButton">Enter Password</button>
-  <button id="importExportButton" disabled>Read and Write File</button>
+  <button id="importButton" disabled>Import</button>
+  <button id="exportButton" disabled>Export</button>
   <input type="file" id="fileInput" style="display: none;" />
 
   <hr>
@@ -52,6 +53,10 @@
           <td>Password</td>
           <td id="passwordValue"></td>
         </tr>
+        <tr id="importRow">
+          <td id="importEntered">❌</td>
+          <td>Import</td>
+          <td id="importValue"></td>
       </tbody>
     </table>
   </div>
