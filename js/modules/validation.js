@@ -42,7 +42,10 @@ export function validateInt(number) {
 export function validateInputFileName(name) {
   const txtExtensionPattern = /\.txt$/i;
   const isValidLength = name.length <= 34;
-  return txtExtensionPattern.test(name) && isValidLength;
+  const isLongEnough = name.length >= 5;
+  const hasSingleExtension = (name.match(/\./g) || []).length === 1;
+  const validChars = /^[a-zA-Z0-9_.-]*$/;
+  return txtExtensionPattern.test(name) && isValidLength && isLongEnough && validChars.test(name) && hasSingleExtension;
 }
 
 /**
@@ -51,7 +54,10 @@ export function validateInputFileName(name) {
 export function validateOutputFileName(name) {
   const jsonExtensionPattern = /\.json$/i;
   const isValidLength = name.length <= 35;
-  return jsonExtensionPattern.test(name) && isValidLength;
+  const isLongEnough = name.length >= 6;
+  const hasSingleExtension = (name.match(/\./g) || []).length === 1;
+  const validChars = /^[a-zA-Z0-9_.-]*$/;
+  return jsonExtensionPattern.test(name) && isValidLength && isLongEnough && validChars.test(name) && hasSingleExtension;
 }
 
 /**

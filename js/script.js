@@ -101,8 +101,8 @@ function promptForNumbers() {
  */
 function promptForFiles() {
 
-  let inputFileName = prompt("Enter name of the input .txt file");
-  let outputFileName = prompt("Enter name of the output .json file");
+  let inputFileName = prompt("Enter name of the input .txt file \n (Must include .txt file extension)");
+  let outputFileName = prompt("Enter name of the output .json file \n (Must include .json file extension)");
 
   //validate the input file name
   if (!validateInputFileName(inputFileName)) {

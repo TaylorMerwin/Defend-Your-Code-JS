@@ -13,6 +13,7 @@ export function updateInputValue(inputType, value) {
       valueId = "nameValue";
       break;
     case 'Numbers':
+      enteredId = "numbersEntered";
       valueId = "numbersValue";
       break;
     case 'I/O Files':

@@ -63,13 +63,16 @@ QUnit.module('validateInput and validateOutput tests', function () {
     assert.notOk(validateInputFileName("sample.json"), 'Wrong file type');
     assert.notOk(validateInputFileName("invalid.exe"), 'Invalid file type');
     assert.notOk(validateInputFileName("file"), 'No file type specified');
-    assert.notOk(validateInputFileName("tooLongOfAFileNameIsNotGoodToSee.txt"), 'File name too long');
+    assert.notOk(validateInputFileName("theFileNameIsWaytooLongOfAFileNameWhichIsNotGoodToSeeWhatsoever.txt"), 'File name too long');
+    assert.notOk(validateInputFileName("in.txt.txt"), 'More than one extension');
+    assert.notOk(validateInputFileName("__malicious.exe.txt"), 'Illegal Characters and Hidden Extension');
+    assert.notOk(validateInputFileName(".txt"), 'No File Name');
   })
   QUnit.test('Invalid Output file names', function (assert) {
     assert.notOk(validateOutputFileName("sample.txt"), 'Wrong file type');
     assert.notOk(validateOutputFileName("invalid.exe"), 'Invalid file type');
     assert.notOk(validateOutputFileName("file"), 'No file type specified');
-    assert.notOk(validateOutputFileName("tooLongOfAFileNameIsNotGoodToSee.json"), 'File name too long');
+    assert.notOk(validateOutputFileName("theFileNameIsWaytooLongOfAFileNameWhichIsNotGoodToSeeWhatsoever.json"), 'File name too long');
   })
 });
 
